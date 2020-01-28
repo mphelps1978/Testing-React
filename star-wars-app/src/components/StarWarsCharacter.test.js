@@ -9,13 +9,15 @@ import StarWarsCharacters from './StarWarsCharacters'
 jest.mock('../api')
 
 
-test('Buttons Next and Prev function as intended', async() =>{
 
-    getData.mockResolvedValueOnce(
+test('Buttons Next and Previous function as intended', async() =>{
+
+    getData.mockResolvedValue(
         {
           results: [
             {
-              name: 'testName'
+              name: 'testName',
+              id: 1
             }
           ],
           next: 'testNext',
@@ -25,11 +27,13 @@ test('Buttons Next and Prev function as intended', async() =>{
 
 const { getByText } = render(<StarWarsCharacters />)
 
-const nextButton = getByText(/next/i)
-const prevButton = getByText(/previous/i)
+const testNextButton = getByText(/next/i)
+const testPreviousButton = getByText(/previous/i)
 
-fireEvent.click(nextButton)
-fireEvent.click(prevButton)
+
+
+fireEvent.click(testNextButton)
+fireEvent.click(testPreviousButton)
 expect(getData).toHaveBeenCalledTimes(1)
 
 wait(() => expect(getByText(/'Darth'/i)))
